@@ -1,7 +1,7 @@
 package com.algosensei.backend.domain.entity;
 import java.util.List;
 
-import com.algosensei.backend.domain.enums.Levels.SkillLevel;
+import com.algosensei.backend.domain.enums.Levels;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name= "users")
-
 public class User {
 
     //will generate id each user
@@ -47,7 +46,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SkillLevel skillLevel;
+    private Levels skillLevel;
 
 
     /*

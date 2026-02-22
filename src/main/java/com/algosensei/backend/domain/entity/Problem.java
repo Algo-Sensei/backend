@@ -1,8 +1,5 @@
 package com.algosensei.backend.domain.entity;
-
-
-
-import com.algosensei.backend.domain.enums.Levels.DifficultyLevel;
+import com.algosensei.backend.domain.enums.Levels;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,7 +41,7 @@ public class Problem {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
-    private DifficultyLevel difficultyLevel;
+    private Levels difficultyLevel;
 
     
     // many problems belong to one user
