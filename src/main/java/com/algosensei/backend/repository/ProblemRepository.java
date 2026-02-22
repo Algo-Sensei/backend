@@ -1,6 +1,6 @@
 package com.algosensei.backend.repository;
 
-import java.util.*;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
