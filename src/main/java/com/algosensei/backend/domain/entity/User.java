@@ -1,7 +1,7 @@
 package com.algosensei.backend.domain.entity;
 import java.util.List;
 
-import com.algosensei.backend.domain.enums.SkillLevel;
+import com.algosensei.backend.domain.enums.Levels.SkillLevel;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

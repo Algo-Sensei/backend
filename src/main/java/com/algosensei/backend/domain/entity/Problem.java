@@ -2,7 +2,7 @@ package com.algosensei.backend.domain.entity;
 
 
 
-import com.algosensei.backend.domain.enums.DifficultyLevel;
+import com.algosensei.backend.domain.enums.Levels.DifficultyLevel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
