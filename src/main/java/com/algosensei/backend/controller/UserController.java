@@ -5,51 +5,57 @@ import org.springframework.web.bind.annotation.*;
 
 import com.algosensei.backend.domain.dto.request.UserLoginRequestDTO;
 import com.algosensei.backend.domain.dto.request.UserRequestDTO;
-import com.algosensei.backend.domain.dto.request.UserUpdateRequestDTO;
 import com.algosensei.backend.domain.dto.response.UserResponseDTO;
 import com.algosensei.backend.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
+/*
+ * UserController handles all HTTP requests related to User
+ * Base URL: /api/users
+ *
+ * Endpoints:
+ * POST   /api/users/register  → register new account
+ * POST   /api/users/login     → login
+ * GET    /api/users/{id}      → get user profile
+ */
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    // POST /api/users/register
+    /*
+     * REGISTER
+     * POST /api/users/register
+     * Body: { name, email, password, skillLevel }
+     * Returns: registered user (without password)
+     */
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO request) {
         return ResponseEntity.ok(userService.register(request));
     }
 
-    // POST /api/users/login
+    /*
+     * LOGIN
+     * POST /api/users/login
+     * Body: { email, password }
+     * Returns: user data if credentials are correct
+     */
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO request) {
         return ResponseEntity.ok(userService.login(request));
     }
 
-    // GET /api/users/{id}
+    /*
+     * GET USER PROFILE
+     * GET /api/users/{id}
+     * Returns: user data for the given ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getById(id));
-    }
-
-    // PUT /api/users/{id}
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id,
-                                                  @RequestBody UserUpdateRequestDTO request) {
-        return ResponseEntity.ok(userService.update(id, request));
-    }
-
-    // DELETE /api/users/{id}
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        userService.delete(id);
-        return ResponseEntity.ok("User deleted successfully");
     }
 }
