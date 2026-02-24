@@ -11,15 +11,6 @@ import com.algosensei.backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-/*
- * UserController handles all HTTP requests related to User
- * Base URL: /api/users
- *
- * Endpoints:
- * POST   /api/users/register  → register new account
- * POST   /api/users/login     → login
- * GET    /api/users/{id}      → get user profile
- */
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -30,8 +21,6 @@ public class UserController {
     /*
      * REGISTER
      * POST /api/users/register
-     * Body: { name, email, password, skillLevel }
-     * Returns: registered user (without password)
      */
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO request) {
@@ -41,8 +30,6 @@ public class UserController {
     /*
      * LOGIN
      * POST /api/users/login
-     * Body: { email, password }
-     * Returns: user data if credentials are correct
      */
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO request) {
@@ -52,7 +39,6 @@ public class UserController {
     /*
      * GET USER PROFILE
      * GET /api/users/{id}
-     * Returns: user data for the given ID
      */
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {

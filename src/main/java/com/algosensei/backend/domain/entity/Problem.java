@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "problems")
 public class Problem {
 
-    // auto-generated primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,14 +35,11 @@ public class Problem {
     @Column(nullable = true)
     private Levels difficultyLevel;
 
-    // comma-separated tags e.g. "array,sorting,greedy" — optional
     @Column(nullable = true)
     private String tags;
 
     /*
      * many problems belong to one user
-     * - FetchType.LAZY → only loads user when explicitly accessed (better performance)
-     * - user_id is the foreign key column in the problems table
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
