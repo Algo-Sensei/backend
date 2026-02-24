@@ -9,16 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
-/*
- * UserService handles all business logic related to User
- * - register    → create new account
- * - login       → verify credentials
- * - getById     → get user profile
- *
- * NOTE: no update or delete
- * - this system is like ChatGPT — users keep their account and history
- * - account management (update/delete) will be added later if needed
- */
 @Service
 @RequiredArgsConstructor
 public class UserService {
