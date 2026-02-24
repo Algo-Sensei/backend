@@ -6,9 +6,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserResponseDTO {
+public class ProblemResponseDTO {
     private Long id;
-    private String name;
-    private String email;
-    private Levels skillLevel;
+    private String title;
+    private String description;
+    private Levels difficultyLevel;
+    private String tags;
+    private Long userId;
 }

@@ -1,55 +1,51 @@
 package com.algosensei.backend.domain.entity;
+
 import com.algosensei.backend.domain.enums.Levels;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Problem")
-@Builder
+@Table(name = "problems")
 public class Problem {
-    
+
+    // auto-generated primary key
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable=false)
+    // problem title — optional
+    @Column(nullable = true)
     private String title;
 
-
-
-    @NotBlank
-    @Column(nullable=false, columnDefinition="TEXT") // allows long discription in db
+    // full problem description — required
+    @NotBlank(message = "Description is required")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-
+    // how hard the problem is: EASY=basic, MEDIUM=moderate, HARD=difficult, EXPERT=extremely hard
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = true)
     private Levels difficultyLevel;
 
-    
-    // many problems belong to one user
+    // comma-separated tags e.g. "array,sorting,greedy" — optional
+    @Column(nullable = true)
+    private String tags;
+
+    /*
+     * many problems belong to one user
+     * - FetchType.LAZY → only loads user when explicitly accessed (better performance)
+     * - user_id is the foreign key column in the problems table
+     */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
-    
-
-
-
 }

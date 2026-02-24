@@ -1,70 +1,57 @@
 package com.algosensei.backend.domain.entity;
+
 import java.util.List;
 
 import com.algosensei.backend.domain.enums.Levels;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name= "users")
+@Table(name = "users")
 public class User {
 
-    //will generate id each user
+    // auto-generated primary key
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    // user's name cannot be blank
+
+    // user's full name — cannot be blank
     @NotBlank(message = "Please enter your name")
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String name;
 
-    // user's email must be unique and valid
+    // user's email — must be unique and valid format
     @NotBlank(message = "Please enter your email")
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     @Email(message = "Email should be valid")
     private String email;
 
+    // stored as bcrypt hash — never stored as plain text
+    @NotBlank(message = "Please enter your password")
+    @Column(nullable = false)
+    private String password;
 
-
+    // how skillful the user is: EASY=beginner, MEDIUM=intermediate, HARD=advanced, EXPERT=master
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Levels skillLevel;
 
-
     /*
-
-    this means one user many problems
-
-    - mappedBy = "user"
-    ang problem entity ang nag handle sa relationship gikan sa 'user' field
-    
-
-    - cascade = CascadeType.ALL
-    ang mahitabo ani sa user kay (save, update, delete) ma apil sad iya problem.
-
-    - orphanRemoval = true
-    kung tangalon ang isa ka problem sa list sa user, automatic ma delete sad sa iya database
-
-    */
+     * one user can have many problems
+     * - mappedBy = "user"       → Problem entity owns the relationship
+     * - cascade = ALL           → save/update/delete cascades to problems
+     * - orphanRemoval = true    → removed problems get deleted from DB
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Problem> problems;
-
 }
