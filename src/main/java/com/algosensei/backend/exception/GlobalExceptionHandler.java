@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     // handles validation error
     //missing you and missing input fields
    @ExceptionHandler(MethodArgumentNotValidException.class)
-   public ResponseEntity<Map<String, Object>> handleMethodArgumenstNotValidException(MethodArgumentNotValidException ex) {
+   public ResponseEntity<Map<String, Object>> handleMethodArgumentsNotValidException(MethodArgumentNotValidException ex) {
     Map<String, Object> error = new HashMap<>();
     error.put("status", 400);
 
