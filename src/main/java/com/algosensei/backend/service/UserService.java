@@ -29,10 +29,9 @@ public class UserService {
         // build user  hash password before saving
         // never store plain text passwords in the database
         User user = User.builder()
-                .name(request.getName())
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .skillLevel(request.getSkillLevel()) // EASY, MEDIUM, HARD, EXPERT
                 .build();
 
         // save to database and return response (without password)
@@ -44,16 +43,21 @@ public class UserService {
     public UserResponseDTO login(UserLoginRequestDTO request) {
 
         // find user by email throw error if not found
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user =  null;
+        if(request.getEmail() != null && !request.getEmail().isEmpty()) {
+            user = userRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        } else if (request.getUsername() != null && !request.getUsername().isEmpty()) {
+            user = userRepository.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Username not found"));
+        } else {
+            throw new RuntimeException("Email or username not found");
+        }
 
-        // heck if the password matches the hashed password in the database
-        // passwordEncoder.matches() compares plain text vs hashed
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-        // credentials are correct return user data
         return toResponseDTO(user);
     }
 
@@ -71,9 +75,8 @@ public class UserService {
     private UserResponseDTO toResponseDTO(User user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .name(user.getName())
+                .username(user.getUsername())
                 .email(user.getEmail())
-                .skillLevel(user.getSkillLevel())
                 .build();
     }
 }

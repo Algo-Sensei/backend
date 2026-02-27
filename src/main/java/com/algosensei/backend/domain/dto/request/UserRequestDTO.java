@@ -10,7 +10,7 @@ import lombok.Data;
 public class UserRequestDTO {
 
     @NotBlank(message = "Name is required")
-    private String name;
+    private String username;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
@@ -20,7 +20,4 @@ public class UserRequestDTO {
     private String password;
 
 
-    // how skillful the user is
-    @NotNull(message = "Skill level is required")
-    private Levels skillLevel;
 }

@@ -19,4 +19,6 @@ public class ProblemRequestDTO {
 
     @NotNull(message = "User ID is required")
     private Long userId;
+
+
 }
